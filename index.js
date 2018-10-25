@@ -390,6 +390,9 @@ function get_notes_lines(invoice) {
     if (invoice.notes) {
         notes_lines.push(...invoice.notes);
     }
+    if (invoice.duplicateDate) {
+        notes_lines.push('DUPLIKAT');
+    }
     return notes_lines;
 }
 
