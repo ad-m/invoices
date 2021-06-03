@@ -25,7 +25,6 @@ const document_configuration = config => {
     if (config.options.info) {
         doc.info = { ...doc.info, ...config.options.info };
     }
-
     doc.pipe(config.output_stream);
 
     return doc;
@@ -333,7 +332,7 @@ const addressing = (doc, position, invoice, options) => {
     // dane sprzedawcy
     const seller_lines = [
         `${invoice.seller.company}`,
-        `ul. ${invoice.seller.address.street}`,
+        invoice.formatVersion >= 2 ? invoice.seller.address.street : `ul. ${invoice.seller.address.street}`,
         `${invoice.seller.address.zipcode} ${invoice.seller.address.city}, ${invoice.seller.address.country}`,
         `NIP: ${invoice.seller.nip}`,
     ];
@@ -342,7 +341,7 @@ const addressing = (doc, position, invoice, options) => {
     // dane nabywcy
     const buyer_lines = [
         `${invoice.buyer.company}`,
-        `ul. ${invoice.buyer.address.street}`,
+        invoice.formatVersion >= 2 ? invoice.buyer.address.street : `ul. ${invoice.buyer.address.street}`,
         `${invoice.buyer.address.zipcode} ${invoice.buyer.address.city}, ${invoice.buyer.address.country}`,
         `NIP: ${stripLeft(invoice.buyer.nip, options.stripBuyerCountry || 'PL')}`,
     ];
